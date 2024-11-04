@@ -16,10 +16,26 @@ contract DepositManager {
         bool isActive; // Indicates whether the deposit is still active
     }
 
-    mapping(address => Deposit) public deposits; // Mapping from tenant address to deposit details
+    /**
+     * @dev Mapping from tenant address to deposit details.
+     * Each tenant address is mapped to their respective deposit information.
+     */
+    mapping(address => Deposit) public deposits;
 
-    event DepositCreated(address tenant, uint256 amount, uint256 releaseTime); // Event emitted when a deposit is created
-    event DepositReleased(address tenant, uint256 amount); // Event emitted when a deposit is released
+    /**
+     * @dev Emitted when a deposit is created.
+     * @param tenant The address of the tenant.
+     * @param amount The amount of the deposit.
+     * @param releaseTime The time when the deposit can be released.
+     */
+    event DepositCreated(address tenant, uint256 amount, uint256 releaseTime); 
+
+    /**
+     * @dev Emitted when a deposit is released.
+     * @param tenant The address of the tenant.
+     * @param amount The amount of the deposit.
+     */
+    event DepositReleased(address tenant, uint256 amount); 
 
 
     /**
@@ -51,7 +67,7 @@ contract DepositManager {
         payable(tenant).sendValue(deposit.amount);
         emit DepositReleased(tenant, deposit.amount);
     }
-    
+
     /**
      * @dev Returns the details of a deposit for a given tenant.
      * @param tenant The address of the tenant.
