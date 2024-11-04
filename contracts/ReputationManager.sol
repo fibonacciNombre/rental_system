@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "./SoulContract.sol";
 
@@ -30,7 +30,6 @@ contract ReputationManager is ERC721URIStorage, AccessControl{
     // Contador para asignar IDs a los tokens
     uint256 public reputationCounter = 0; 
 
-    event ReputationTokenNotMinted(address indexed soul, uint indexed reputationCount);
     event ReputationTokenMinted(uint256 indexed tokenId, address indexed soul, int256 value, uint256 timestamp, string comment);
 
     constructor(address _soulContractAddress) ERC721("ReputationToken", "RPT") {
@@ -42,14 +41,14 @@ contract ReputationManager is ERC721URIStorage, AccessControl{
         reputationsOld[user] += amount;
         mintReputationToken(_soul, amount, _comment);
         emit ReputationUpdated(user, reputationsOld[user]);
-        emit RewardGranted(user, int256(amount));
+        emit RewardGranted(user, amount);
     }
 
     function decreaseReputation(address user, int256 amount) external {
         require(reputationsOld[user] >= amount, "Reputation can't be negative");
         reputationsOld[user] -= amount;
         emit ReputationUpdated(user, reputationsOld[user]);
-        emit PenaltyImposed(user, -int256(amount));
+        emit PenaltyImposed(user, -amount);
     }
 
     function getReputation(address user) external view returns (int256) {
@@ -62,7 +61,8 @@ contract ReputationManager is ERC721URIStorage, AccessControl{
     }
 
     function isAllowedValue(int256 _value) public view returns (bool) {
-        for (uint256 i = 0; i < allowedValues.length; i++) {
+        uint256 allowedValuesLength = allowedValues.length;
+        for (uint256 i = 0; i < allowedValuesLength; ++i) {
             if (allowedValues[i] == _value) {
                 return true;
             }
@@ -96,7 +96,8 @@ contract ReputationManager is ERC721URIStorage, AccessControl{
         uint256[] memory tokenIds = soulContract.getTokensBySoul(_soulAddress);//soulToReputationTokenIds[_soulAddress];
         Reputation[] memory reputationDetails = new Reputation[](tokenIds.length);
 
-        for (uint256 i = 0; i < tokenIds.length; i++) {
+        uint256 tokenIdsLength = tokenIds.length;
+        for (uint256 i = 0; i < tokenIdsLength; ++i) {
             reputationDetails[i] = reputationTokens[tokenIds[i]];
         }
 

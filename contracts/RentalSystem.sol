@@ -4,8 +4,8 @@ pragma solidity 0.8.17;
 import "./ReputationManager.sol";
 import "./DepositManager.sol";
 import "./RecommendationManager.sol";
-import "./SoulContract.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
+
+
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "hardhat/console.sol";
@@ -167,14 +167,14 @@ contract RentalSystem is ReentrancyGuard, AccessControl {
     function getTenantsByLandlord(address landlordAddress) external view returns (Tenant[] memory) {
         require(landlords[landlordAddress].active, "Landlord must be active");
         uint256 tenantCount = 0;
-        for (uint256 i = 0; i < tenantAddresses.length; i++) {
+        for (uint256 i = 0; i < tenantAddresses.length; ++i) {
             if (tenants[tenantAddresses[i]].landlordAddress == landlordAddress) {
                 tenantCount++;
             }
         }
         Tenant[] memory result = new Tenant[](tenantCount);
         uint256 index = 0;
-        for (uint256 i = 0; i < tenantAddresses.length; i++) {
+        for (uint256 i = 0; i < tenantAddresses.length; ++i) {
             if (tenants[tenantAddresses[i]].landlordAddress == landlordAddress) {
                 result[index] = tenants[tenantAddresses[i]];
                 index++;
