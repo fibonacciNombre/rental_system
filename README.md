@@ -4,16 +4,16 @@ El branch **main** contiene el código fuente de los contratos inteligentes que 
 
 ## Arquitectura:
 
-![Arquitectura](image.png)
+![Arquitectura](./static/image.png)
 
 ## Flujo Lógico de Contratos
 
-![Flujo Lógico de Contratos](flujo_logico.png)
+![Flujo Lógico de Contratos](./static/flujo_logico.png)
 
 ## Para ejecutar rental_system de forma local, sigue estos pasos:
 
 1. Descargar el repositorio, asegúrate de que la estructura de archivos sea la siguiente:
-![Arquetipo](source.png)
+![Arquetipo](./static/source.png)
 
 2. Instalar **Node.js**.
 Verificar la instalación con:
@@ -57,4 +57,4 @@ Para realizar un incremento, crean una rama **feature** desde **main**. Realizar
 Esto permitirá integrar los nuevos cambios de manera controlada al branch principal **main**.
 
 
-![Arquitectura](ci_cd.png)
+![Arquitectura](./static/ci_cd.png)
