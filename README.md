@@ -1,23 +1,28 @@
-# TFM
-en el main TFM se encuentra la teoria de juegos sobre las recompensas del buen y mal comportamiento de un inquilino y el diagrama de flujo del desarrollo.
+# TFM: Sistema de Reputación basado en Blockchain para el Alquiler de Pisos en España
+El branch **main** contiene el código fuente de los contratos inteligentes que implementan la lógica central del **Sistema de Reputación**.
 
 
-![image](https://github.com/GregoryAchong/TFM/assets/102753713/b8329050-47d2-4ad0-a674-adf3b1de92c0)
+## Arquitectura:
 
-![alt text](image.png)
+![Arquitectura](image.png)
 
-# draft rental system
+## Flujo Lógico de Contratos
 
-Requisitos:
+![Flujo Lógico de Contratos](flujo_logico.png)
 
-Instalar node.
-Probar con:
+## Para ejecutar rental_system de forma local, sigue estos pasos:
+
+1. Descargar el repositorio, asegúrate de que la estructura de archivos sea la siguiente:
+![Arquetipo](source.png)
+
+2. Instalar **Node.js**.
+Verificar la instalación con:
 ```shell
 npm --version
 
 ```
 
-Crear el archivo .env , con el siguiente contenido:
+3. Crear el archivo **.env** , con el siguiente contenido:
 
 ```shell
 SEPOLIA_PROJECT_ID=https://eth-sepolia.g.alchemy.com/v2/YOUR_ALCHEMY_API_KEY
@@ -25,7 +30,7 @@ MOONBASE_PROJECT_ID=https://rpc.api.moonbase.moonbeam.network
 DEPLOYER_PRIVATE_KEY=0xac09iuegdiwged872378478cbijunhygtfrde7654322ff80
 
 ```
-
+4. Ejecutar los siguienntes comandos
 
 ```shell
 npm install
@@ -37,11 +42,19 @@ npx hardhat run scripts/deploy.js --network hardhat
 
 # Execute Test Cases
 npx hardhat test
-REPORT_GAS=true npx hardhat test
 
-# Deploy desde local
+# Deploy desde local a las redes como Sepolia o Moonbase
 # Deploy sepolia
 npx hardhat run scripts/deploy.js --network sepolia
 # Deploy Moonbase
 npx hardhat run scripts/deploy.js --network moonbase
 ```
+
+## Despliegue Automatizado
+
+Para realizar un incremento, crean una rama **feature** desde **main**. Realizar los cambios necesarios y crear un pull request a main.
+
+Esto permitirá integrar los nuevos cambios de manera controlada al branch principal **main**.
+
+
+![Arquitectura](ci_cd.png)
