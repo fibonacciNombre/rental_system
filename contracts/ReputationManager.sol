@@ -2,7 +2,7 @@
 pragma solidity 0.8.20;
 
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts4/token/ERC721/extensions/ERC721URIStorage.sol";
 import "./SoulContract.sol";
 
 contract ReputationManager is ERC721URIStorage, AccessControl{

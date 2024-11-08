@@ -6,8 +6,8 @@ import "./DepositManager.sol";
 import "./RecommendationManager.sol";
 
 
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts4/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts4/utils/math/SafeMath.sol";
 import "hardhat/console.sol";
 
 contract RentalSystem is ReentrancyGuard, AccessControl {
