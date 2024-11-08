@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.20;
 
 import "./ReputationManager.sol";
 import "./DepositManager.sol";
@@ -72,7 +72,7 @@ contract RentalSystem is ReentrancyGuard, AccessControl {
         landlord = msg.sender; // explain
     }
 
-    function subscribe(uint256 rentAmount, uint256 rentalPeriod, address landlordAddress) external payable whenNotPaused {
+    function subscribe(uint256 rentAmount, uint256 rentalPeriodInDays, address landlordAddress) external payable whenNotPaused {
         require(landlords[landlordAddress].landlordAddress != address(0), "Landlord must be subscribed");
         require(landlordAddress != msg.sender, "Landlord no puede ser su propio tenant");
         require(tenants[msg.sender].tenantAddress == address(0), "Already subscribed");
@@ -80,21 +80,23 @@ contract RentalSystem is ReentrancyGuard, AccessControl {
         console.log(msg.sender);
         console.log(tenants[msg.sender].tenantAddress);
 
+        uint256 rentalPeriodInSeconds = rentalPeriodInDays * 86400;
+        
         tenants[msg.sender] = Tenant({
             tenantAddress: msg.sender,
             landlordAddress: landlordAddress,
             rentAmount: rentAmount,
-            nextPaymentDueDate: block.timestamp + rentalPeriod,
+            nextPaymentDueDate: block.timestamp + rentalPeriodInSeconds,
             active: true,
             pendingAmount: 0
         });
 
         tenantAddresses.push(msg.sender);
 
-        depositManager.createDeposit{value: msg.value}(msg.sender, rentAmount, block.timestamp + rentalPeriod);
+        depositManager.createDeposit{value: msg.value}(msg.sender, rentAmount, block.timestamp + rentalPeriodInSeconds);
         //soulContract.createSoul(msg.sender, "Tenant Soul");
         soulContract.createSoul(msg.sender, landlords[msg.sender].active ? "Tenant Soul (Landlord)" : "Tenant Soul");
-        emit Subscribed(msg.sender, rentAmount, block.timestamp + rentalPeriod);
+        emit Subscribed(msg.sender, rentAmount, block.timestamp + rentalPeriodInSeconds);
     }
 
     function subscribeLandlord() external whenNotPaused {
@@ -135,7 +137,7 @@ contract RentalSystem is ReentrancyGuard, AccessControl {
             if (block.timestamp <= tenant.nextPaymentDueDate + 1 days) {
                 reputationManager.increaseReputation(msg.sender, 1, msg.sender, "Payment transfer"); // Suma 1 punto si paga a tiempo
             } else {
-                reputationManager.decreaseReputation(msg.sender, 1); // Resta 1 punto si paga tarde
+                reputationManager.decreaseReputation(msg.sender, 1, msg.sender, "Delayed payment"); // Resta 1 punto si paga tarde
             }
             emit RentPaid(msg.sender, msg.value, tenant.nextPaymentDueDate);
         }

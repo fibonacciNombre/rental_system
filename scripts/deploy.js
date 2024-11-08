@@ -40,6 +40,11 @@ async function main() {
   await rentalSystem.deployed();
   console.log("RentalSystem address:", rentalSystem.address);
 
+  // DigitalIdentity
+  const DigitalIdentity = await ethers.getContractFactory("DigitalIdentity");
+  const digitalIdentity = await DigitalIdentity.deploy();
+  await digitalIdentity.deployed();
+  console.log("DigitalIdentity address:", digitalIdentity.address);
 }
 
 main()

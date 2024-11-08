@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.20;
 
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
@@ -21,7 +21,8 @@ contract ReputationManager is ERC721URIStorage, AccessControl{
     }
 
     // Lista de valores permitidos para los tokens de reputación
-    int256[] public allowedValues = [-5, 1];
+    int256[] public allowedValues = [int256(1), int256(2), int256(5),int256(-1), int256(-2), int256(-5)];
+
 
     SoulContract public soulContract;
 
@@ -44,9 +45,10 @@ contract ReputationManager is ERC721URIStorage, AccessControl{
         emit RewardGranted(user, amount);
     }
 
-    function decreaseReputation(address user, int256 amount) external {
+    function decreaseReputation(address user, int256 amount, address _soul, string memory _comment) external {
         require(reputationsOld[user] >= amount, "Reputation can't be negative");
         reputationsOld[user] -= amount;
+        mintReputationToken(_soul, -amount, _comment);
         emit ReputationUpdated(user, reputationsOld[user]);
         emit PenaltyImposed(user, -amount);
     }
