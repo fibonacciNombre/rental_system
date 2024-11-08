@@ -61,7 +61,7 @@ describe("RentalSystem", function () {
     //await rentalSystem.connect(landlord).subscribeLandlord();
 
     const rentAmount = ethers.utils.parseEther("1.0"); // 1 ETH
-    const rentalPeriod = 30 * 24 * 60 * 60; // 30 days in seconds
+    const rentalPeriod = 30; // 30 days in seconds
 
     await expect(rentalSystem.connect(tenant).subscribe(rentAmount, rentalPeriod, landlord.address, { value: rentAmount }))
       .to.emit(rentalSystem, "Subscribed")
@@ -89,7 +89,7 @@ describe("RentalSystem", function () {
     //await rentalSystem.connect(landlord).subscribeLandlord();
 
     const rentAmount = ethers.utils.parseEther("1.0"); // 1 ETH
-    const rentalPeriod = 30 * 24 * 60 * 60; // 30 days in seconds
+    const rentalPeriod = 30; // 30 days in seconds
 
     await expect(rentalSystem.connect(landlord).subscribe(rentAmount, rentalPeriod, tenant.address, { value: rentAmount }))
       .to.emit(rentalSystem, "Subscribed")
