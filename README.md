@@ -1,4 +1,4 @@
-# TFM: Sistema de Reputación basado en Blockchain para el Alquiler de Pisos en España
+# TFM: Sistema de Reputación
 El branch **main** contiene el código fuente de los contratos inteligentes que implementan la lógica central del **Sistema de Reputación**.
 
 
